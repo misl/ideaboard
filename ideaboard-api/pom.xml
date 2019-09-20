@@ -13,15 +13,16 @@
     <version>0.1.0</version>
   </parent>
 
-  <groupId>nl.xup.ideaboard.model</groupId>
-  <artifactId>ideaboard-model</artifactId>
+  <groupId>nl.xup.ideaboard.api</groupId>
+  <artifactId>ideaboard-api</artifactId>
   <packaging>pom</packaging>
 
-  <name>IdeaBoard :: Model (reactor)</name>
+  <name>IdeaBoard :: API (reactor)</name>
 
   <modules>
-    <module>ideaboard-model-jackson</module>
-    <module>ideaboard-model-spec</module>
+    <module>ideaboard-model</module>
+    <module>ideaboard-openapi</module>
+    <module>ideaboard-asyncapi</module>
   </modules>
 
 </project>

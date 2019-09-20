@@ -15,9 +15,7 @@
   <name>IdeaBoard (reactor)</name>
 
   <modules>
-    <module>ideaboard-model</module>
-    <module>ideaboard-openapi</module>
-    <module>ideaboard-asyncapi</module>
+    <module>ideaboard-api</module>
   </modules>
 
   <properties>
