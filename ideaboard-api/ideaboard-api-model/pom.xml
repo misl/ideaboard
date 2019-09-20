@@ -10,9 +10,10 @@
   <parent>
     <groupId>nl.xup.ideaboard.api</groupId>
     <artifactId>ideaboard-api</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
   </parent>
 
+  <groupId>nl.xup.ideaboard.api.model</groupId>
   <artifactId>ideaboard-model</artifactId>
   <packaging>pom</packaging>
 

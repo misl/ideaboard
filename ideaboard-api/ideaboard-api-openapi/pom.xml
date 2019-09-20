@@ -10,29 +10,23 @@
   <parent>
     <groupId>nl.xup.ideaboard.api</groupId>
     <artifactId>ideaboard-api</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
   </parent>
 
-  <artifactId>ideaboard-asyncapi</artifactId>
+  <artifactId>ideaboard-api-openapi</artifactId>
   <packaging>jar</packaging>
 
-  <name>IdeaBoard :: API :: AsyncAPI</name>
+  <name>IdeaBoard :: API :: OpenAPI</name>
 
   <dependencies>
     <!-- Our own dependencies -->
     <dependency>
-      <groupId>nl.xup.ideaboard.model</groupId>
+      <groupId>nl.xup.ideaboard.api.model</groupId>
       <artifactId>ideaboard-model-specification</artifactId>
     </dependency>
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${basedir}/src/main/specification</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -46,7 +40,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/asyncapi-specification</outputDirectory>
+              <outputDirectory>${project.build.directory}/openapi-specification</outputDirectory>
               <resources>
                 <resource>
                   <directory>${project.basedir}/src/main/specification/</directory>
@@ -70,38 +64,37 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>nl.xup.ideaboard.model</groupId>
+                  <groupId>nl.xup.ideaboard.api.model</groupId>
                   <artifactId>ideaboard-model-specification</artifactId>
                   <includes>**/*.yaml</includes>
                   <excludes>**/*.class</excludes>
                 </artifactItem>
               </artifactItems>
-              <outputDirectory>${project.build.directory}/asyncapi-specification/model</outputDirectory>
+              <outputDirectory>${project.build.directory}/openapi-specification/model</outputDirectory>
             </configuration>
           </execution>
         </executions>
       </plugin>
-      <!-- We need some similar validation for AsyncAPI. -->
-<!--      <plugin>-->
-<!--        <groupId>it.traeck.tools.openapi</groupId>-->
-<!--        <artifactId>openapi-validator-maven-plugin</artifactId>-->
-<!--        <version>1.0.0</version>-->
-<!--        <executions>-->
-<!--          <execution>-->
-<!--            <phase>generate-resources</phase>-->
-<!--            <goals>-->
-<!--              <goal>validate</goal>-->
-<!--            </goals>-->
-<!--            <configuration>-->
-<!--              <inputSpec>${project.build.directory}/asyncapi-specification/ideaboard-asyncapi.yaml</inputSpec>-->
-<!--              <outputPath>${project.build.directory}/classes/api</outputPath>-->
-<!--              <outputFilename>ideaboard-asyncapi</outputFilename>-->
-<!--              <outputFormat>JSONANDYAML</outputFormat>-->
-<!--              <prettyPrint>true</prettyPrint>-->
-<!--            </configuration>-->
-<!--          </execution>-->
-<!--        </executions>-->
-<!--      </plugin>-->
+      <plugin>
+        <groupId>it.traeck.tools.openapi</groupId>
+        <artifactId>openapi-validator-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.build.directory}/openapi-specification/ideaboard-openapi.yaml</inputSpec>
+              <outputPath>${project.build.directory}/classes/api</outputPath>
+              <outputFilename>ideaboard-openapi</outputFilename>
+              <outputFormat>JSONANDYAML</outputFormat>
+              <prettyPrint>true</prettyPrint>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>

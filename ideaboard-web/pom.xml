@@ -13,16 +13,14 @@
     <version>0.1.1</version>
   </parent>
 
-  <groupId>nl.xup.ideaboard.api</groupId>
-  <artifactId>ideaboard-api</artifactId>
+  <groupId>nl.xup.ideaboard.web</groupId>
+  <artifactId>ideaboard-web</artifactId>
   <packaging>pom</packaging>
 
-  <name>IdeaBoard :: API (reactor)</name>
+  <name>IdeaBoard :: Web (reactor)</name>
 
   <modules>
-    <module>ideaboard-api-model</module>
-    <module>ideaboard-api-openapi</module>
-    <module>ideaboard-api-asyncapi</module>
+    <module>ideaboard-web-resteasy</module>
   </modules>
 
 </project>

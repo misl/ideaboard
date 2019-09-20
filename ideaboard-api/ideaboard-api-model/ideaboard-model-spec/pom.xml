@@ -8,9 +8,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>nl.xup.ideaboard.api</groupId>
+    <groupId>nl.xup.ideaboard.api.model</groupId>
     <artifactId>ideaboard-model</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
   </parent>
 
   <artifactId>ideaboard-model-specification</artifactId>

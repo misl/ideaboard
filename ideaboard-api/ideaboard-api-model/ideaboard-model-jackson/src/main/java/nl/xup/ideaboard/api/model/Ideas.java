@@ -112,10 +112,10 @@ public class Ideas implements Serializable {
     // Constructor
     // -------------------------------------------------------------------------
 
-    protected Builder() {
+    public Builder() {
     }
 
-    protected Builder( final Ideas object ) {
+    public Builder( final Ideas object ) {
       // Parameter validation
       Objects.requireNonNull( object, () -> String.format( MSG_REQUIRED_ARGUMENT, "object" ) );
 
