@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>nl.xup.ideaboard</groupId>
+    <artifactId>ideaboard-reactor</artifactId>
+    <version>0.1.0</version>
+  </parent>
+
+  <groupId>nl.xup.ideaboard.api</groupId>
+  <artifactId>ideaboard-asyncapi</artifactId>
+  <packaging>jar</packaging>
+
+  <name>IdeaBoard :: API :: AsyncAPI</name>
+
+  <dependencies>
+    <!-- Our own dependencies -->
+    <dependency>
+      <groupId>nl.xup.ideaboard.model</groupId>
+      <artifactId>ideaboard-model-specification</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/specification</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/asyncapi-specification</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/main/specification/</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>resource-dependencies</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>nl.xup.ideaboard.model</groupId>
+                  <artifactId>ideaboard-model-specification</artifactId>
+                  <includes>**/*.yaml</includes>
+                  <excludes>**/*.class</excludes>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/asyncapi-specification/model</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- We need some similar validation for AsyncAPI. -->
+<!--      <plugin>-->
+<!--        <groupId>it.traeck.tools.openapi</groupId>-->
+<!--        <artifactId>openapi-validator-maven-plugin</artifactId>-->
+<!--        <version>1.0.0</version>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <phase>generate-resources</phase>-->
+<!--            <goals>-->
+<!--              <goal>validate</goal>-->
+<!--            </goals>-->
+<!--            <configuration>-->
+<!--              <inputSpec>${project.build.directory}/asyncapi-specification/ideaboard-asyncapi.yaml</inputSpec>-->
+<!--              <outputPath>${project.build.directory}/classes/api</outputPath>-->
+<!--              <outputFilename>ideaboard-asyncapi</outputFilename>-->
+<!--              <outputFormat>JSONANDYAML</outputFormat>-->
+<!--              <prettyPrint>true</prettyPrint>-->
+<!--            </configuration>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

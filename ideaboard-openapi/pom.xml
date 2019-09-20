@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>nl.xup.ideaboard</groupId>
+    <artifactId>ideaboard-reactor</artifactId>
+    <version>0.1.0</version>
+  </parent>
+
+  <groupId>nl.xup.ideaboard.api</groupId>
+  <artifactId>ideaboard-openapi</artifactId>
+  <packaging>jar</packaging>
+
+  <name>IdeaBoard :: API :: OpenAPI</name>
+
+  <dependencies>
+    <!-- Our own dependencies -->
+    <dependency>
+      <groupId>nl.xup.ideaboard.model</groupId>
+      <artifactId>ideaboard-model-specification</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/openapi-specification</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/main/specification/</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>resource-dependencies</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>nl.xup.ideaboard.model</groupId>
+                  <artifactId>ideaboard-model-specification</artifactId>
+                  <includes>**/*.yaml</includes>
+                  <excludes>**/*.class</excludes>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/openapi-specification/model</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>it.traeck.tools.openapi</groupId>
+        <artifactId>openapi-validator-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.build.directory}/openapi-specification/ideaboard-openapi.yaml</inputSpec>
+              <outputPath>${project.build.directory}/classes/api</outputPath>
+              <outputFilename>ideaboard-openapi</outputFilename>
+              <outputFormat>JSONANDYAML</outputFormat>
+              <prettyPrint>true</prettyPrint>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

@@ -1,0 +1,20 @@
+openapi: 3.0.2
+info:
+  title: Dummy API
+  description: Dummy
+  version: ${project.version}
+  contact:
+    email: minto@xup.nl
+paths:
+  '/ideas':
+    get:
+      description: ''
+      responses:
+        '200':
+          description: >-
+            To describe the Ideas object.
+          content:
+            application/json:
+              schema:
+                $ref: './Ideas.yaml'
+

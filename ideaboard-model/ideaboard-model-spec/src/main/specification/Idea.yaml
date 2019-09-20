@@ -1,0 +1,28 @@
+Idea:
+  type: object
+  required: 
+    - title
+  properties:
+    id:
+      description: Unique identification of the idea.
+      type: string
+    title:
+      description: Title for the idea.
+      type: string
+    description:
+      description: Description for the idea.
+      type: string
+    createdAt:
+      description: Timestamp when the idea was created.
+      type: string
+      format: date-time
+    updatedAt:
+      description: Timestamp when the idea was last updated.
+      type: string
+      format: date-time
+  example:
+    title: 'A really great idea'
+    destination: 'An awesome idea that is simple and easy to understand.'
+    createdAt: '2019-09-19T19:40:00.000Z'
+    updatedAt: '2019-09-19T19:45:00.000Z'
+
