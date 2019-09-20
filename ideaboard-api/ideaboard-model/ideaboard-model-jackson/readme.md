@@ -17,6 +17,10 @@ something that only works on model description files.
 For instance what if we only have messaging APIs 
 according to AsyncAPI. How would we create the model then?
 
+Also we preferred to use JSON-B for implementing the 
+model, since it is a standard. Unfortunately current
+JSON-B does **not** [support the builder pattern](https://github.com/eclipse-ee4j/jsonb-api/issues/191) yet.
+
 ## Todos
 - We would first need a Model json schema.
 - Java generator for for model description files.
