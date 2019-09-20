@@ -1,12 +1,9 @@
-package nl.xup.ideaboard.model;
+package nl.xup.ideaboard.api.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;

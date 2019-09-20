@@ -1,4 +1,4 @@
-package nl.xup.ideaboard.model;
+package nl.xup.ideaboard.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

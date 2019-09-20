@@ -1,10 +1,9 @@
-package nl.xup.ideaboard.model;
+package nl.xup.ideaboard.api.model;
 
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
