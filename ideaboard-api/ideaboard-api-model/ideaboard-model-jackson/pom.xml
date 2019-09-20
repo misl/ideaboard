@@ -9,8 +9,8 @@
 
   <parent>
     <groupId>nl.xup.ideaboard.api.model</groupId>
-    <artifactId>ideaboard-model</artifactId>
-    <version>0.1.1</version>
+    <artifactId>ideaboard-api-model</artifactId>
+    <version>0.1.2</version>
   </parent>
 
   <artifactId>ideaboard-model-jackson</artifactId>

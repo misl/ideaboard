@@ -10,18 +10,18 @@
   <parent>
     <groupId>nl.xup.ideaboard.api</groupId>
     <artifactId>ideaboard-api</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
   </parent>
 
   <groupId>nl.xup.ideaboard.api.model</groupId>
-  <artifactId>ideaboard-model</artifactId>
+  <artifactId>ideaboard-api-model</artifactId>
   <packaging>pom</packaging>
 
   <name>IdeaBoard :: API :: Model (reactor)</name>
 
   <modules>
     <module>ideaboard-model-jackson</module>
-    <module>ideaboard-model-spec</module>
+    <module>ideaboard-model-specification</module>
   </modules>
 
 </project>
