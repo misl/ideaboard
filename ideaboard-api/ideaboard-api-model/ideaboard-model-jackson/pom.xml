@@ -14,7 +14,7 @@
   </parent>
 
   <artifactId>ideaboard-model-jackson</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
 
   <name>IdeaBoard :: API :: Model :: Jackson</name>
 
@@ -112,22 +112,18 @@
           <useSystemClassLoader>false</useSystemClassLoader>
         </configuration>
       </plugin>
-
       <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <inherited>true</inherited>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Bundle-Version>${project.version}</Bundle-Version>
-            <Import-Package>
-              org.slf4j;version="[1.7,2)";resolution:=optional,
-              *
-            </Import-Package>
-          </instructions>
-        </configuration>
+        <groupId>org.jboss.jandex</groupId>
+        <artifactId>jandex-maven-plugin</artifactId>
+        <version>1.0.6</version>
+        <executions>
+          <execution>
+            <id>make-index</id>
+            <goals>
+              <goal>jandex</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

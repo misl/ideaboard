@@ -9,10 +9,10 @@
     <version>0.1.2</version>
   </parent>
 
-  <artifactId>ideaboard-web-resteasy</artifactId>
+  <artifactId>ideaboard-web-vertx</artifactId>
   <packaging>jar</packaging>
 
-  <name>IdeaBoard :: Web :: RestEasy</name>
+  <name>IdeaBoard :: Web :: Vert.x</name>
 
   <dependencies>
     <dependency>
@@ -20,20 +20,6 @@
       <artifactId>ideaboard-model-jackson</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-junit5</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-opentracing</artifactId>
@@ -48,14 +34,6 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-jackson</artifactId>
-    </dependency>
-<!--    <dependency>-->
-<!--      <groupId>io.quarkus</groupId>-->
-<!--      <artifactId>quarkus-mongodb-client</artifactId>-->
-<!--    </dependency>-->
-    <dependency>
-      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-health</artifactId>
     </dependency>
     <dependency>
@@ -65,6 +43,31 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-vertx</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web-api-service</artifactId>
+      <version>3.7.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -78,6 +81,52 @@
             <goals>
               <goal>build</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>resource-dependencies</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>nl.xup.ideaboard.api</groupId>
+                  <artifactId>ideaboard-api-openapi</artifactId>
+                  <includes>api/**</includes>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>it.traeck.tools.json-merge</groupId>
+        <artifactId>json-merge-maven-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>merge</goal>
+            </goals>
+            <configuration>
+              <filenames>
+                <filename>${project.build.directory}/api/ideaboard-openapi.yaml</filename>
+                <filename>${project.basedir}/src/main/specification/extending-ideaboard-openapi.yaml</filename>
+              </filenames>
+              <outputPath>${project.build.directory}/classes/api</outputPath>
+              <outputFilename>ideaboard-openapi</outputFilename>
+              <outputFormat>JSONANDYAML</outputFormat>
+              <prettyPrint>true</prettyPrint>
+            </configuration>
           </execution>
         </executions>
       </plugin>

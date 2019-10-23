@@ -1,0 +1,32 @@
+#
+# To prevent polluting the specification with all kind of
+# extension related fields,the specification is split into
+# parts.
+#
+# The majority of the specification is in the public api
+# (ideaboard-api-openapi). The extension part related to
+# Vert.x Web API Service can be found here.
+#
+# Both parts will be merged prior to usage. This is done as
+# part of the build using json-merge-maven-plugin.
+#
+---
+paths:
+  '/ideas':
+    x-vertx-event-bus:
+      address: ideaboard.ideas
+      timeout: 1000
+    get:
+      operationId: listIdeas
+    post:
+      operationId: addIdea
+  '/ideas/{ideaId}':
+    x-vertx-event-bus:
+      address: ideaboard.ideas
+      timeout: 1000
+    get:
+      operationId: getIdea
+    put:
+      operationId: updateIdea
+    delete:
+      operationId: removeIdea

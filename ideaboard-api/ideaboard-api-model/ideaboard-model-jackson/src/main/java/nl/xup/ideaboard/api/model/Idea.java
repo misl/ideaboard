@@ -28,6 +28,7 @@ public class Idea implements Serializable {
   // Object attributes
   // -------------------------------------------------------------------------
 
+  private final String id;
   private final String title;
   private final String description;
   private final Instant createdAt;
@@ -42,6 +43,7 @@ public class Idea implements Serializable {
 
     Objects.requireNonNull( builder.title, () -> String.format( Ideas.MSG_REQUIRED_ARGUMENT, "title" ) );
 
+    this.id = builder.id;
     this.title = builder.title;
     this.description = builder.description;
     this.createdAt = builder.createdAt;
@@ -51,6 +53,16 @@ public class Idea implements Serializable {
   // -------------------------------------------------------------------------
   // Getters
   // -------------------------------------------------------------------------
+
+  /**
+   * Gets the unique id of the idea.
+   *
+   * @return String with the unique id
+   */
+  @JsonProperty(value = "id")
+  public String getId() {
+    return id;
+  }
 
   /**
    * Gets the title of the idea.
@@ -103,6 +115,7 @@ public class Idea implements Serializable {
     // Object attributes
     // -------------------------------------------------------------------------
 
+    private String id;
     private String title;
     private String description;
     private Instant createdAt;
@@ -116,6 +129,7 @@ public class Idea implements Serializable {
     }
 
     public Builder( final Idea object ) {
+      this.id = object.getId();
       this.title = object.getTitle();
       this.description = object.getDescription();
       this.createdAt = object.getCreatedAt();
@@ -125,6 +139,15 @@ public class Idea implements Serializable {
     // -------------------------------------------------------------------------
     // Builder methods
     // -------------------------------------------------------------------------
+
+    @JsonProperty(value = "id")
+    public Builder withId( final String id ) {
+      // Argument validation
+      Objects.requireNonNull( id, () -> String.format( Ideas.MSG_REQUIRED_ARGUMENT, "id" ) );
+
+      this.id = id;
+      return this;
+    }
 
     @JsonProperty(value = "title")
     public Builder withTitle( final String title ) {

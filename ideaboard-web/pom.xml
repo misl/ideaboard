@@ -21,6 +21,7 @@
 
   <modules>
     <module>ideaboard-web-resteasy</module>
+    <module>ideaboard-web-vertx</module>
   </modules>
 
 </project>
