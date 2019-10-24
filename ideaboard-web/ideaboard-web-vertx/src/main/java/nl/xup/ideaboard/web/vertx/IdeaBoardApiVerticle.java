@@ -28,73 +28,59 @@ public class IdeaBoardApiVerticle extends AbstractVerticle {
 
   @Override
   public void start( Future<Void> future ) throws Exception {
+    logger.info( "IdeaBoard Rest API is starting" );
     // Load API Specification
-    OpenAPI3RouterFactory.create( this.vertx, "api/ideaboard-openapi.yaml", openAPI3RouterFactoryResult -> {
-      if ( openAPI3RouterFactoryResult.failed() ) {
-        // Something when wrong during router factory initialization
-        Throwable exception = openAPI3RouterFactoryResult.cause();
-        future.fail( exception );
-      }
+    OpenAPI3RouterFactory.rxCreate( this.vertx, "api/ideaboard-openapi.yaml" )
+        .flatMap( routerFactory -> {
+          // Spec loaded with success. router factory contains OpenAPI3RouterFactory
+          // Set router factory options.
+          RouterFactoryOptions options = new RouterFactoryOptions().setOperationModelKey("openapi_model");
+          // Mount the options
+          routerFactory.setOptions(options);
+          // Add an handler with operationId
+          routerFactory.addHandlerByOperationId("getIdeas", routingContext -> {
+            // Handle listPets operation
+            routingContext.response().setStatusMessage("Called getIdeas").end();
+          });
+          routerFactory.addHandlerByOperationId("createIdea", routingContext -> {
+            // Handle listPets operation
+            routingContext.response().setStatusMessage("Called createIdea").end();
+          });
+          routerFactory.addHandlerByOperationId("getIdea", routingContext -> {
+            // Handle listPets operation
+            routingContext.response().setStatusMessage("Called getIdea").end();
+          });
+          routerFactory.addHandlerByOperationId("updateIdea", routingContext -> {
+            // Handle listPets operation
+            routingContext.response().setStatusMessage("Called updateIdea").end();
+          });
+          routerFactory.addHandlerByOperationId("removeIdea", routingContext -> {
+            // Handle listPets operation
+            routingContext.response().setStatusMessage("Called removeIdea").end();
+          });
+          routerFactory.mountServiceFromTag(  )
 
-      // Specification loaded with success
-      OpenAPI3RouterFactory routerFactory = openAPI3RouterFactoryResult.result();
+          // Add a security handler
+//          routerFactory.addSecurityHandler("api_key", JWTAuthHandler.create(jwtAuth));
 
-      // Add an handler with operationId
-      routerFactory.addHandlerByOperationId("getIdeas", routingContext -> {
-        // Load the parsed parameters
-        RequestParameters params = routingContext.get("parsedParameters");
-        // Handle listPets operation
-        RequestParameter limitParameter = params.queryParameter(/* Parameter name */ "limit");
-        if (limitParameter != null) {
-          // limit parameter exists, use it!
-          Integer limit = limitParameter.getInteger();
-        } else {
-          // limit parameter doesn't exist (it's not required).
-          // If it's required you don't have to check if it's null!
-        }
-        routingContext.response().setStatusMessage("OK").end();
-      });
-      // Add a failure handler
-      routerFactory.addFailureHandlerByOperationId("getIdeas", routingContext -> {
-        // This is the failure handler
-        Throwable failure = routingContext.failure();
-        if (failure instanceof ValidationException )
-          // Handle Validation Exception
-          routingContext.response()
-              .setStatusCode(400)
-              .setStatusMessage("ValidationException thrown! " + ((ValidationException) failure).type().name())
-              .end();
-      });
+          // Now you have to generate the router
+          Router router = routerFactory.getRouter();
 
-      // Add a security handler
-//      routerFactory.addSecurityHandler("api_key", routingContext -> {
-//        // Handle security here
-//        routingContext.next();
-//      });
-
-      // Before router creation you can enable/disable various router factory behaviours
-      RouterFactoryOptions factoryOptions = new RouterFactoryOptions()
-          .setMountResponseContentTypeHandler(true); // Mount ResponseContentTypeHandler automatically
-
-      // Now you have to generate the router
-      Router router = routerFactory.setOptions(factoryOptions).getRouter();
-
-      // Now you can use your Router instance
-      server = vertx.createHttpServer(new HttpServerOptions().setPort(8085).setHost("localhost"));
-      server.requestHandler(router).listen((ar) -> {
-        if ( ar.succeeded() ) {
-          logger.info( "Server started on port " + ar.result().actualPort() );
-          future.complete();
-        } else {
-          logger.error( "oops, something went wrong during server initialization", ar.cause() );
-          future.fail( ar.cause() );
-        }
-      });
-    });
+          // Now you can use your Router instance
+          server = vertx.createHttpServer(new HttpServerOptions().setPort(8088).setHost("localhost"));
+          return server.requestHandler(router).rxListen();
+        })
+        .subscribe( httpServer -> {
+          // Server up and running
+          logger.info( "IdeaBoard Rest API has started" );
+        }, throwable -> {
+          // Error during router factory instantiation or http server start
+        });
   }
 
   @Override
   public void stop() {
     this.server.close();
+    logger.info( "IdeaBoard Rest API has stopped" );
   }
 }
