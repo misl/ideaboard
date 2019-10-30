@@ -17,4 +17,4 @@ single file.
 
 **Note:** The model should be used to automatically generate domain 
 classes. Unfortunately, due to lack of the right tooling, domain classes
-are currently still coded.{: .note}
+are currently still coded.
