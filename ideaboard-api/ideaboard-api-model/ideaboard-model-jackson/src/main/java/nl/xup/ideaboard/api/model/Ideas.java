@@ -161,7 +161,7 @@ public class Ideas implements Serializable {
   // Private methods
   // -------------------------------------------------------------------------
 
-  protected static ObjectMapper getObjectMapper() {
+  static ObjectMapper getObjectMapper() {
     if ( null == objectMapper ) {
       objectMapper = new ObjectMapper()
           .configure( DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES, false )

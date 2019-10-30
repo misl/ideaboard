@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -49,6 +50,23 @@ public class Idea implements Serializable {
     this.createdAt = builder.createdAt;
     this.updatedAt = builder.updatedAt;
   }
+
+  // -------------------------------------------------------------------------
+  // Interface
+  // -------------------------------------------------------------------------
+
+  public String toJson() throws IOException {
+    return Ideas.getObjectMapper().writeValueAsString( this );
+  }
+
+  public static String toJson( final Idea idea ) throws IOException {
+    return idea.toJson();
+  }
+
+  public static Idea fromJson( final String json ) throws IOException {
+    return Ideas.getObjectMapper().readerFor( Idea.class ).readValue( json );
+  }
+
 
   // -------------------------------------------------------------------------
   // Getters
