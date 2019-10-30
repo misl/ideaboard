@@ -1,8 +1,9 @@
-package nl.xup.ideaboard.web.vertx;
+package nl.xup.ideaboard.web.vertx.resources;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import io.vertx.reactivex.core.Vertx;
+import nl.xup.ideaboard.web.vertx.services.IdeaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,17 +12,20 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class IdeaBoardApi {
+public class IdeaBoardVerticleActivator {
 
   // --------------------------------------------------------------------------
   // Object attributes
   // --------------------------------------------------------------------------
 
-  private static final Logger LOGGER = LoggerFactory.getLogger( IdeaBoardApi.class );
+  private static final Logger LOGGER = LoggerFactory.getLogger( IdeaBoardVerticleActivator.class );
 
   // --------------------------------------------------------------------------
   // Object attributes
   // --------------------------------------------------------------------------
+
+  @Inject
+  IdeaService ideaService;
 
   @Inject
   private Vertx vertx;
@@ -46,7 +50,7 @@ public class IdeaBoardApi {
 
   private void startVerticle() {
     LOGGER.info( "Starting IdeaBoard API" );
-    IdeaBoardApiVerticle verticle = new IdeaBoardApiVerticle();
+    IdeaBoardVerticle verticle = new IdeaBoardVerticle( ideaService );
     vertx.deployVerticle( verticle, handler -> {
       if ( handler.succeeded() ) {
         deploymentId = handler.result();
