@@ -2,6 +2,7 @@ package nl.xup.ideaboard.web.vertx.resources;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
+import io.vertx.ext.web.Router;
 import io.vertx.reactivex.core.Vertx;
 import nl.xup.ideaboard.web.vertx.services.IdeaService;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class IdeaBoardVerticleActivator {
   @Inject
   private Vertx vertx;
 
+  @Inject
+  private Router router;
+
   private String deploymentId;
 
   // --------------------------------------------------------------------------
@@ -49,8 +53,10 @@ public class IdeaBoardVerticleActivator {
   // --------------------------------------------------------------------------
 
   private void startVerticle() {
+    router.get( "/test" ).handler( rc -> rc.response().end( "test" ) );
+
     LOGGER.info( "Starting IdeaBoard API" );
-    IdeaBoardVerticle verticle = new IdeaBoardVerticle( ideaService );
+    IdeaBoardVerticle verticle = new IdeaBoardVerticle( ideaService, router );
     vertx.deployVerticle( verticle, handler -> {
       if ( handler.succeeded() ) {
         deploymentId = handler.result();

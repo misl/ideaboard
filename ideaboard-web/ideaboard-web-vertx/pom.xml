@@ -49,9 +49,13 @@
       <artifactId>quarkus-vertx</artifactId>
     </dependency>
     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-vertx-web</artifactId>
+    </dependency>
+    <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web-api-service</artifactId>
-      <version>3.8.1</version>
+      <version>3.8.3</version>
     </dependency>
 
     <dependency>

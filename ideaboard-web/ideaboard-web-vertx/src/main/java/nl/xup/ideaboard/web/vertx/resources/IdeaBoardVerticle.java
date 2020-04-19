@@ -27,12 +27,15 @@ public class IdeaBoardVerticle extends AbstractVerticle {
 
   IdeaService ideaService;
 
+  Router router;
+
   // --------------------------------------------------------------------------
   // Contruction
   // --------------------------------------------------------------------------
 
-  public IdeaBoardVerticle( final IdeaService service ) {
+  public IdeaBoardVerticle( final IdeaService service, final io.vertx.ext.web.Router router ) {
     ideaService = service;
+    this.router = Router.newInstance( router );
   }
 
   // --------------------------------------------------------------------------
@@ -116,13 +119,16 @@ public class IdeaBoardVerticle extends AbstractVerticle {
 //          routerFactory.addSecurityHandler("api_key", JWTAuthHandler.create(jwtAuth));
 
           // Now you have to generate the router
-          Router router = routerFactory.getRouter();
+          Router subRouter = routerFactory.getRouter();
+          subRouter.get( "/test" ).handler( rc -> rc.response().end( "test" ) );
+
+          this.router.mountSubRouter( "/api", subRouter );
 
           // TODO: Output feedback on which routes became available
 
           // Now you can use your Router instance
           server = vertx.createHttpServer(new HttpServerOptions().setPort(8088).setHost("localhost"));
-          return server.requestHandler(router).rxListen();
+          return server.requestHandler(subRouter).rxListen();
         })
         .subscribe( httpServer -> {
           // Server up and running
